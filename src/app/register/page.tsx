@@ -10,10 +10,24 @@ export default function Register() {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Здесь должна быть логика отправки данных на сервер
-    alert("Регистрация успешна!");
+    try {
+      const res = await fetch('/api/auth/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(form),
+      });
+      if (res.ok) {
+        alert('Регистрация успешна!');
+        window.location.href = '/login';
+      } else {
+        const data = await res.json();
+        alert(data.error || 'Ошибка регистрации');
+      }
+    } catch (err) {
+      alert('Ошибка сети');
+    }
   };
 
   return (

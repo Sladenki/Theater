@@ -7,10 +7,26 @@ export default function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Здесь будет логика авторизации
-    console.log('Login attempt:', { email, password });
+    try {
+      const res = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password }),
+      });
+      if (res.ok) {
+        // Можно сохранить токен или id пользователя в localStorage/sessionStorage
+        // Например: const data = await res.json(); localStorage.setItem('user', JSON.stringify(data));
+        alert('Вход выполнен!');
+        window.location.href = '/';
+      } else {
+        const data = await res.json();
+        alert(data.error || 'Ошибка авторизации');
+      }
+    } catch (err) {
+      alert('Ошибка сети');
+    }
   };
 
   return (
