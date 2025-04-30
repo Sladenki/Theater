@@ -29,64 +29,91 @@ export default function PerformancePage() {
 
   return (
     <main className="min-h-screen bg-gradient-to-b from-gray-900 to-gray-800 text-white">
+      {/* Hero Section */}
+      <div className="relative h-[60vh]">
+        <div 
+          className="absolute inset-0 bg-cover bg-center opacity-30"
+          style={{ backgroundImage: `url(${performanceData.image})` }}
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-gray-900 to-transparent" />
+        
+        <div className="relative h-full flex items-end">
+          <div className="max-w-6xl mx-auto px-4 py-12 w-full">
+            <h1 className="text-4xl md:text-6xl font-bold mb-4">{performanceData.title}</h1>
+            <p className="text-xl md:text-2xl text-amber-400 mb-6">{performanceData.author}</p>
+            <div className="flex flex-wrap gap-4">
+              <div className="bg-gray-800/50 px-4 py-2 rounded-full">
+                <span className="text-amber-400">Дата:</span> {performanceData.date}
+              </div>
+              <div className="bg-gray-800/50 px-4 py-2 rounded-full">
+                <span className="text-amber-400">Время:</span> {performanceData.time}
+              </div>
+              <div className="bg-gray-800/50 px-4 py-2 rounded-full">
+                <span className="text-amber-400">Продолжительность:</span> {performanceData.duration}
+              </div>
+              <div className="bg-gray-800/50 px-4 py-2 rounded-full">
+                <span className="text-amber-400">Возраст:</span> {performanceData.ageRestriction}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Content Section */}
       <div className="max-w-6xl mx-auto px-4 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {/* Изображение спектакля */}
-          <div className="relative h-96 md:h-[600px] rounded-lg overflow-hidden">
-            <img
-              src={performanceData.image}
-              alt={performanceData.title}
-              className="w-full h-full object-cover"
-            />
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          {/* Main Content */}
+          <div className="lg:col-span-2 space-y-8">
+            <div className="bg-gray-800/50 p-6 rounded-xl">
+              <h2 className="text-2xl font-bold mb-4">О спектакле</h2>
+              <p className="text-gray-300 leading-relaxed">{performanceData.description}</p>
+            </div>
+
+            <div className="bg-gray-800/50 p-6 rounded-xl">
+              <h2 className="text-2xl font-bold mb-4">В ролях</h2>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {performanceData.cast.map((member, index) => (
+                  <div key={index} className="bg-gray-700/50 p-4 rounded-lg">
+                    <p className="text-amber-400 font-semibold">{member.role}</p>
+                    <p className="text-gray-300">{member.actor}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
 
-          {/* Информация о спектакле */}
+          {/* Sidebar */}
           <div className="space-y-6">
-            <h1 className="text-4xl font-bold">{performanceData.title}</h1>
-            <p className="text-xl text-amber-400">{performanceData.author}</p>
-            
-            <div className="space-y-4">
-              <div>
-                <h2 className="text-2xl font-semibold mb-2">О спектакле</h2>
-                <p className="text-gray-300">{performanceData.description}</p>
-              </div>
+            <div className="bg-gray-800/50 p-6 rounded-xl">
+              <h2 className="text-2xl font-bold mb-4">Режиссер</h2>
+              <p className="text-gray-300">{performanceData.director}</p>
+            </div>
 
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <p className="text-gray-400">Продолжительность</p>
-                  <p className="text-lg">{performanceData.duration}</p>
+            <div className="bg-gray-800/50 p-6 rounded-xl">
+              <h2 className="text-2xl font-bold mb-4">Цены на билеты</h2>
+              <div className="space-y-3">
+                <div className="flex justify-between items-center">
+                  <span className="text-gray-300">VIP</span>
+                  <span className="text-amber-400 font-bold">5000 ₽</span>
                 </div>
-                <div>
-                  <p className="text-gray-400">Возрастное ограничение</p>
-                  <p className="text-lg">{performanceData.ageRestriction}</p>
+                <div className="flex justify-between items-center">
+                  <span className="text-gray-300">Партер</span>
+                  <span className="text-amber-400 font-bold">3000 ₽</span>
                 </div>
-              </div>
-
-              <div>
-                <h2 className="text-2xl font-semibold mb-2">Дата и время</h2>
-                <p className="text-xl">{performanceData.date}, {performanceData.time}</p>
-              </div>
-
-              <div>
-                <h2 className="text-2xl font-semibold mb-2">Режиссер</h2>
-                <p className="text-lg">{performanceData.director}</p>
-              </div>
-
-              <div>
-                <h2 className="text-2xl font-semibold mb-2">В ролях</h2>
-                <ul className="space-y-2">
-                  {performanceData.cast.map((member, index) => (
-                    <li key={index} className="text-gray-300">
-                      <span className="text-amber-400">{member.role}</span> - {member.actor}
-                    </li>
-                  ))}
-                </ul>
+                <div className="flex justify-between items-center">
+                  <span className="text-gray-300">Бельэтаж</span>
+                  <span className="text-amber-400 font-bold">2000 ₽</span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-gray-300">Балкон</span>
+                  <span className="text-amber-400 font-bold">1000 ₽</span>
+                </div>
               </div>
             </div>
 
             <Link
               href={`/performance/${id}/seats`}
-              className="inline-block bg-amber-600 hover:bg-amber-700 text-white font-bold py-3 px-8 rounded-full text-lg transition duration-300 transform hover:scale-105"
+              className="block w-full bg-amber-600 hover:bg-amber-700 text-white font-bold py-4 px-6 rounded-xl text-center transition duration-300 transform hover:scale-105"
             >
               Выбрать места
             </Link>
