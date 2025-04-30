@@ -1,0 +1,31 @@
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/client"
+}
+
+// Example model, adjust as needed
+model User {
+  id       Int    @id @default(autoincrement())
+  email    String @unique
+  password String
+  name     String
+  role     String
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+model Performance {
+  id          Int    @id @default(autoincrement())
+  title       String
+  author      String
+  description String
+  image       String
+}

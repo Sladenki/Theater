@@ -3,31 +3,6 @@
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 
-// Временные данные о спектаклях (позже будут приходить с сервера)
-const performances = [
-  {
-    id: 1,
-    title: 'Гамлет',
-    author: 'Уильям Шекспир',
-    description: 'Классическая трагедия о датском принце',
-    image: 'https://images.unsplash.com/photo-1514306191717-452ec28c7814?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80',
-  },
-  {
-    id: 2,
-    title: 'Вишневый сад',
-    author: 'Антон Чехов',
-    description: 'Классическая пьеса о судьбе дворянской усадьбы',
-    image: 'https://images.unsplash.com/photo-1514306191717-452ec28c7814?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80',
-  },
-  {
-    id: 3,
-    title: 'Ревизор',
-    author: 'Николай Гоголь',
-    description: 'Комедия о чиновниках и мнимом ревизоре',
-    image: 'https://images.unsplash.com/photo-1514306191717-452ec28c7814?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80',
-  },
-];
-
 // Анимации
 const fadeInUp = {
   initial: { opacity: 0, y: 20 },
@@ -53,6 +28,7 @@ import { useEffect, useState } from "react";
 
 export default function Home() {
   const [user, setUser] = useState<{ name: string } | null>(null);
+  const [performances, setPerformances] = useState<any[]>([]);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -65,7 +41,13 @@ export default function Home() {
         }
       }
     }
+    // Fetch performances from API
+    fetch('/api/performances')
+      .then(res => res.json())
+      .then(setPerformances);
   }, []);
+
+  console.log('performances', performances)
 
   const handleLogout = () => {
     localStorage.removeItem("user");

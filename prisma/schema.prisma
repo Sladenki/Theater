@@ -5,6 +5,7 @@ datasource db {
 
 generator client {
   provider = "prisma-client-js"
+  output   = "../src/generated/client"
 }
 
 // Example model, adjust as needed
@@ -19,4 +20,12 @@ model User {
 enum Role {
   USER
   ADMIN
+}
+
+model Performance {
+  id          Int      @id @default(autoincrement())
+  title       String
+  author      String
+  description String
+  image       String
 }
