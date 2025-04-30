@@ -140,9 +140,25 @@ export default function SeatSelectionPage() {
             <div className="space-y-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {selectedSeats.map((seat, index) => (
-                  <div key={index} className="bg-gray-700 p-4 rounded">
-                    <p>Ряд {seat.row}, Место {seat.seat}</p>
-                    <p className="text-amber-400">{getSeatPrice(seat.row)} ₽</p>
+                  <div key={index} className="bg-gray-700 p-4 rounded flex items-center justify-between">
+                    <div>
+                      <p>Ряд {seat.row}, Место {seat.seat}</p>
+                      <p className="text-amber-400">{getSeatPrice(seat.row)} ₽</p>
+                    </div>
+                    <button
+                      onClick={() =>
+                        setSelectedSeats(prev =>
+                          prev.filter(s => !(s.row === seat.row && s.seat === seat.seat))
+                        )
+                      }
+                      className="ml-4 text-gray-400 hover:text-red-500 transition-colors"
+                      aria-label="Удалить место"
+                      type="button"
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                      </svg>
+                    </button>
                   </div>
                 ))}
               </div>
@@ -164,4 +180,4 @@ export default function SeatSelectionPage() {
       </div>
     </main>
   );
-} 
+}

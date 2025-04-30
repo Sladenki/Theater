@@ -71,7 +71,7 @@ export default function Home() {
             initial="initial"
             animate="animate"
             variants={staggerContainer}
-            className="text-center"
+            className="flex flex-col items-center text-center w-full"
           >
             <motion.h1 
               className="text-5xl md:text-7xl font-bold mb-6"
@@ -80,7 +80,7 @@ export default function Home() {
               Калининградский Драматический Театр
             </motion.h1>
             <motion.p 
-              className="text-xl md:text-2xl text-center mb-8 max-w-2xl"
+              className="text-xl md:text-2xl text-center mb-8 max-w-2xl mx-auto"
               variants={fadeInUp}
             >
               Добро пожаловать в мир театрального искусства, где каждая постановка - это уникальное путешествие
@@ -234,4 +234,4 @@ export default function Home() {
       </motion.footer>
     </main>
   );
-} 
+}
