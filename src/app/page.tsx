@@ -1,4 +1,7 @@
+'use client';
+
 import Link from 'next/link';
+import { motion, AnimatePresence } from 'framer-motion';
 
 // Временные данные о спектаклях (позже будут приходить с сервера)
 const performances = [
@@ -25,84 +28,178 @@ const performances = [
   },
 ];
 
+// Анимации
+const fadeInUp = {
+  initial: { opacity: 0, y: 20 },
+  animate: { opacity: 1, y: 0 },
+  transition: { duration: 0.5 }
+};
+
+const staggerContainer = {
+  animate: {
+    transition: {
+      staggerChildren: 0.1
+    }
+  }
+};
+
+const scaleIn = {
+  initial: { scale: 0.9, opacity: 0 },
+  animate: { scale: 1, opacity: 1 },
+  transition: { duration: 0.5 }
+};
+
 export default function Home() {
   return (
     <main className="min-h-screen bg-gradient-to-b from-gray-900 to-gray-800 text-white">
       {/* Hero Section */}
       <div className="relative h-screen">
         {/* Background Image */}
-        <div 
+        <motion.div 
           className="absolute inset-0 bg-cover bg-center opacity-50"
           style={{
             backgroundImage: "url('https://images.unsplash.com/photo-1514306191717-452ec28c7814?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80')"
           }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 0.5 }}
+          transition={{ duration: 1 }}
         />
         
         {/* Content */}
         <div className="relative z-10 flex flex-col items-center justify-center h-full px-4">
-          <h1 className="text-5xl md:text-7xl font-bold text-center mb-6">
-            Калининградский Драматический Театр
-          </h1>
-          <p className="text-xl md:text-2xl text-center mb-8 max-w-2xl">
-            Добро пожаловать в мир театрального искусства, где каждая постановка - это уникальное путешествие
-          </p>
-          
-          {/* Login Button */}
-          <Link
-            href="/login"
-            className="bg-amber-600 hover:bg-amber-700 text-white font-bold py-3 px-8 rounded-full text-lg transition duration-300 transform hover:scale-105"
+          <motion.div
+            initial="initial"
+            animate="animate"
+            variants={staggerContainer}
+            className="text-center"
           >
-            Войти
-          </Link>
+            <motion.h1 
+              className="text-5xl md:text-7xl font-bold mb-6"
+              variants={fadeInUp}
+            >
+              Калининградский Драматический Театр
+            </motion.h1>
+            <motion.p 
+              className="text-xl md:text-2xl text-center mb-8 max-w-2xl"
+              variants={fadeInUp}
+            >
+              Добро пожаловать в мир театрального искусства, где каждая постановка - это уникальное путешествие
+            </motion.p>
+            
+            <motion.div variants={fadeInUp}>
+              <Link
+                href="/login"
+                className="bg-amber-600 hover:bg-amber-700 text-white font-bold py-3 px-8 rounded-full text-lg transition duration-300 transform hover:scale-105 inline-block"
+              >
+                Войти
+              </Link>
+            </motion.div>
+          </motion.div>
         </div>
       </div>
 
       {/* Features Section */}
-      <div className="py-20 px-4">
+      <motion.div 
+        className="py-20 px-4"
+        initial={{ opacity: 0, y: 50 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.8 }}
+      >
         <div className="max-w-6xl mx-auto">
-          <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">
+          <motion.h2 
+            className="text-3xl md:text-4xl font-bold text-center mb-12"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.2 }}
+          >
             Наши преимущества
-          </h2>
+          </motion.h2>
           
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="bg-gray-800 p-6 rounded-lg shadow-lg">
+          <motion.div 
+            className="grid grid-cols-1 md:grid-cols-3 gap-8"
+            variants={staggerContainer}
+            initial="initial"
+            whileInView="animate"
+            viewport={{ once: true }}
+          >
+            <motion.div 
+              className="bg-gray-800 p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow"
+              variants={scaleIn}
+              whileHover={{ scale: 1.05 }}
+            >
               <h3 className="text-xl font-semibold mb-4">Богатая история</h3>
               <p className="text-gray-300">
                 Более 70 лет на сцене. Мы гордимся нашей историей и традициями
               </p>
-            </div>
+            </motion.div>
             
-            <div className="bg-gray-800 p-6 rounded-lg shadow-lg">
+            <motion.div 
+              className="bg-gray-800 p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow"
+              variants={scaleIn}
+              whileHover={{ scale: 1.05 }}
+            >
               <h3 className="text-xl font-semibold mb-4">Разнообразный репертуар</h3>
               <p className="text-gray-300">
                 Классические и современные постановки для всех возрастов
               </p>
-            </div>
+            </motion.div>
             
-            <div className="bg-gray-800 p-6 rounded-lg shadow-lg">
+            <motion.div 
+              className="bg-gray-800 p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow"
+              variants={scaleIn}
+              whileHover={{ scale: 1.05 }}
+            >
               <h3 className="text-xl font-semibold mb-4">Профессиональная труппа</h3>
               <p className="text-gray-300">
                 Талантливые актеры и режиссеры с богатым опытом
               </p>
-            </div>
-          </div>
+            </motion.div>
+          </motion.div>
         </div>
-      </div>
+      </motion.div>
 
       {/* Current Productions */}
-      <div className="py-20 px-4 bg-gray-800">
+      <motion.div 
+        className="py-20 px-4 bg-gray-800"
+        initial={{ opacity: 0, y: 50 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.8 }}
+      >
         <div className="max-w-6xl mx-auto">
-          <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">
+          <motion.h2 
+            className="text-3xl md:text-4xl font-bold text-center mb-12"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.2 }}
+          >
             Текущие постановки
-          </h2>
+          </motion.h2>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {performances.map((performance) => (
-              <div key={performance.id} className="bg-gray-900 rounded-lg overflow-hidden shadow-lg">
-                <img 
+          <motion.div 
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+            variants={staggerContainer}
+            initial="initial"
+            whileInView="animate"
+            viewport={{ once: true }}
+          >
+            {performances.map((performance, index) => (
+              <motion.div 
+                key={performance.id}
+                className="bg-gray-900 rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow"
+                variants={scaleIn}
+                whileHover={{ scale: 1.05 }}
+                custom={index}
+              >
+                <motion.img 
                   src={performance.image}
                   alt={performance.title}
                   className="w-full h-48 object-cover"
+                  whileHover={{ scale: 1.1 }}
+                  transition={{ duration: 0.3 }}
                 />
                 <div className="p-6">
                   <h3 className="text-xl font-semibold mb-2">{performance.title}</h3>
@@ -115,20 +212,26 @@ export default function Home() {
                     Купить билеты
                   </Link>
                 </div>
-              </div>
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
         </div>
-      </div>
+      </motion.div>
 
       {/* Footer */}
-      <footer className="bg-gray-900 py-8 px-4">
+      <motion.footer 
+        className="bg-gray-900 py-8 px-4"
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.5 }}
+      >
         <div className="max-w-6xl mx-auto text-center">
           <p className="text-gray-400">
             © 2024 Калининградский Драматический Театр. Все права защищены.
           </p>
         </div>
-      </footer>
+      </motion.footer>
     </main>
   );
 } 
