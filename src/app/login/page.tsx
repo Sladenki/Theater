@@ -16,8 +16,9 @@ export default function Login() {
         body: JSON.stringify({ email, password }),
       });
       if (res.ok) {
-        // Можно сохранить токен или id пользователя в localStorage/sessionStorage
-        // Например: const data = await res.json(); localStorage.setItem('user', JSON.stringify(data));
+        const data = await res.json();
+        console.log('data', data)
+        localStorage.setItem("user", JSON.stringify({ name: data.name, email: data.email, role: data.role }));
         alert('Вход выполнен!');
         window.location.href = '/';
       } else {

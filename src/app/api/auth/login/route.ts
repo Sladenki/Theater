@@ -11,7 +11,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Неверные данные' }, { status: 401 })
     }
     // Здесь можно добавить JWT или сессию
-    return NextResponse.json({ id: user.id, email: user.email, role: user.role })
+    return NextResponse.json({ id: user.id, email: user.email, name: user.name, role: user.role })
   } catch (error: any) {
     return NextResponse.json({ error: error.message || 'Server error' }, { status: 500 })
   }

@@ -49,7 +49,29 @@ const scaleIn = {
   transition: { duration: 0.5 }
 };
 
+import { useEffect, useState } from "react";
+
 export default function Home() {
+  const [user, setUser] = useState<{ name: string } | null>(null);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const userData = localStorage.getItem("user");
+      if (userData) {
+        try {
+          setUser(JSON.parse(userData));
+        } catch {
+          setUser(null);
+        }
+      }
+    }
+  }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem("user");
+    window.location.reload();
+  };
+
   return (
     <main className="min-h-screen bg-gradient-to-b from-gray-900 to-gray-800 text-white">
       {/* Hero Section */}
@@ -71,7 +93,7 @@ export default function Home() {
             initial="initial"
             animate="animate"
             variants={staggerContainer}
-            className="flex flex-col items-center text-center w-full"
+            className="text-center flex flex-col items-center"
           >
             <motion.h1 
               className="text-5xl md:text-7xl font-bold mb-6"
@@ -80,19 +102,33 @@ export default function Home() {
               Калининградский Драматический Театр
             </motion.h1>
             <motion.p 
-              className="text-xl md:text-2xl text-center mb-8 max-w-2xl mx-auto"
+              className="text-xl md:text-2xl text-center mb-8 max-w-2xl"
               variants={fadeInUp}
             >
               Добро пожаловать в мир театрального искусства, где каждая постановка - это уникальное путешествие
             </motion.p>
             
             <motion.div variants={fadeInUp}>
-              <Link
-                href="/login"
-                className="bg-amber-600 hover:bg-amber-700 text-white font-bold py-3 px-8 rounded-full text-lg transition duration-300 transform hover:scale-105 inline-block"
-              >
-                Войти
-              </Link>
+              {user ? (
+                <div className="flex items-center justify-center space-x-4">
+                  <span className="bg-amber-600 text-white font-bold py-3 px-8 rounded-full text-lg inline-block">
+                    Вы авторизованы, как - {user.name}
+                  </span>
+                  <button
+                    onClick={handleLogout}
+                    className="bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-6 rounded-full text-lg transition duration-300 ml-2"
+                  >
+                    Выйти
+                  </button>
+                </div>
+              ) : (
+                <Link
+                  href="/login"
+                  className="bg-amber-600 hover:bg-amber-700 text-white font-bold py-3 px-8 rounded-full text-lg transition duration-300 transform hover:scale-105 inline-block"
+                >
+                  Войти
+                </Link>
+              )}
             </motion.div>
           </motion.div>
         </div>
