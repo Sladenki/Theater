@@ -93,9 +93,12 @@ export default function Home() {
             <motion.div variants={fadeInUp}>
               {user ? (
                 <div className="flex items-center justify-center space-x-4">
-                  <span className="bg-amber-600 text-white font-bold py-3 px-8 rounded-full text-lg inline-block">
-                    Вы авторизованы, как - {user.name}
-                  </span>
+                 <Link
+                    href="/profile"
+                    className="bg-amber-600 text-white font-bold py-3 px-8 rounded-full text-lg inline-block hover:bg-amber-700 transition"
+                  >
+                    Личный кабинет ({user.name})
+                  </Link>
                   <button
                     onClick={handleLogout}
                     className="bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-6 rounded-full text-lg transition duration-300 ml-2"
