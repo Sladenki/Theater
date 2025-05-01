@@ -20,8 +20,28 @@ export default function Profile() {
 
   const handleAddPerformance = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Здесь реализуйте отправку данных на сервер
-    alert('Мероприятие добавлено (заглушка)');
+    const form = e.target as HTMLFormElement;
+    const title = (form.elements.namedItem("title") as HTMLInputElement).value;
+    const author = (form.elements.namedItem("author") as HTMLInputElement).value;
+    const description = (form.elements.namedItem("description") as HTMLTextAreaElement).value;
+    const image = (form.elements.namedItem("image") as HTMLInputElement).value;
+
+    try {
+      const res = await fetch('/api/performances', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ title, author, description, image }),
+      });
+      if (res.ok) {
+        alert('Мероприятие успешно добавлено!');
+        form.reset();
+      } else {
+        const data = await res.json();
+        alert(data.error || 'Ошибка при добавлении мероприятия');
+      }
+    } catch (err) {
+      alert('Ошибка сети');
+    }
   };
 
   if (!user) {
@@ -37,23 +57,27 @@ export default function Profile() {
           <form onSubmit={handleAddPerformance}>
             <input
               type="text"
+              name="title"
               placeholder="Название"
               className="w-full mb-4 px-4 py-2 rounded bg-gray-700 text-white"
               required
             />
             <input
               type="text"
+              name="author"
               placeholder="Автор"
               className="w-full mb-4 px-4 py-2 rounded bg-gray-700 text-white"
               required
             />
             <textarea
+              name="description"
               placeholder="Описание"
               className="w-full mb-4 px-4 py-2 rounded bg-gray-700 text-white"
               required
             />
             <input
               type="text"
+              name="image"
               placeholder="Ссылка на изображение"
               className="w-full mb-4 px-4 py-2 rounded bg-gray-700 text-white"
               required
