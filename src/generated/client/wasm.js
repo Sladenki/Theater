@@ -133,6 +133,23 @@ exports.Prisma.PerformanceScalarFieldEnum = {
   image: 'image'
 };
 
+exports.Prisma.TicketScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  performanceId: 'performanceId',
+  row: 'row',
+  seat: 'seat',
+  price: 'price',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.OccupiedSeatScalarFieldEnum = {
+  id: 'id',
+  performanceId: 'performanceId',
+  row: 'row',
+  seat: 'seat'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -141,7 +158,9 @@ exports.Prisma.SortOrder = {
 
 exports.Prisma.ModelName = {
   User: 'User',
-  Performance: 'Performance'
+  Performance: 'Performance',
+  Ticket: 'Ticket',
+  OccupiedSeat: 'OccupiedSeat'
 };
 
 /**

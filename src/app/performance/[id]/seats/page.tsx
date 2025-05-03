@@ -1,47 +1,49 @@
 'use client';
 
-import { useState } from 'react';
-import { useParams } from 'next/navigation';
+import { useState, useEffect } from 'react';
+import { useParams, useRouter } from 'next/navigation';
 
-// Временные данные о зале
-const hallData = {
-  rows: 15,
-  seatsPerRow: 20,
-  priceZones: [
-    { name: 'VIP', price: 5000, color: 'bg-amber-500', rows: [1, 2] },
-    { name: 'Партер', price: 3000, color: 'bg-blue-500', rows: [3, 4, 5, 6] },
-    { name: 'Бельэтаж', price: 2000, color: 'bg-green-500', rows: [7, 8, 9, 10] },
-    { name: 'Балкон', price: 1000, color: 'bg-purple-500', rows: [11, 12, 13, 14, 15] },
-  ],
-  // Временные данные о занятых местах
-  occupiedSeats: [
-    { row: 1, seat: 5 },
-    { row: 1, seat: 6 },
-    { row: 2, seat: 10 },
-    { row: 3, seat: 15 },
-    { row: 4, seat: 3 },
-    { row: 5, seat: 7 },
-    { row: 6, seat: 12 },
-    { row: 7, seat: 8 },
-    { row: 8, seat: 4 },
-    { row: 9, seat: 9 },
-    { row: 10, seat: 11 },
-    { row: 11, seat: 6 },
-    { row: 12, seat: 13 },
-    { row: 13, seat: 2 },
-    { row: 14, seat: 7 },
-    { row: 15, seat: 10 },
-  ],
-};
+// Данные о зонах и ценах
+const priceZones = [
+  { name: 'VIP', price: 5000, color: 'bg-amber-500', rows: [1, 2] },
+  { name: 'Партер', price: 3000, color: 'bg-blue-500', rows: [3, 4, 5, 6] },
+  { name: 'Бельэтаж', price: 2000, color: 'bg-green-500', rows: [7, 8, 9, 10] },
+  { name: 'Балкон', price: 1000, color: 'bg-purple-500', rows: [11, 12, 13, 14, 15] },
+];
 
 export default function SeatSelectionPage() {
   const params = useParams();
   const { id } = params;
-  const [selectedSeats, setSelectedSeats] = useState<{ row: number; seat: number }[]>([]);
+  const router = useRouter();
+  const [selectedSeats, setSelectedSeats] = useState<{ row: number; seat: number; price: number }[]>([]);
   const [showPaymentPopup, setShowPaymentPopup] = useState(false);
+  const [occupiedSeats, setOccupiedSeats] = useState<{ row: number; seat: number }[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [user, setUser] = useState<{ id: number; email: string; name: string } | null>(null);
+
+  useEffect(() => {
+    // Получаем данные пользователя из LocalStorage
+    const userData = localStorage.getItem('user');
+    if (userData) {
+      setUser(JSON.parse(userData));
+    }
+
+    if (!id) return;
+    setLoading(true);
+    setError(null);
+    fetch(`/api/performances/${id}/seats`)
+      .then(res => {
+        if (!res.ok) throw new Error('Ошибка загрузки данных');
+        return res.json();
+      })
+      .then(data => setOccupiedSeats(data))
+      .catch(e => setError(e.message))
+      .finally(() => setLoading(false));
+  }, [id]);
 
   const isSeatOccupied = (row: number, seat: number) => {
-    return hallData.occupiedSeats.some(s => s.row === row && s.seat === seat);
+    return occupiedSeats.some(s => s.row === row && s.seat === seat);
   };
 
   const isSeatSelected = (row: number, seat: number) => {
@@ -49,7 +51,7 @@ export default function SeatSelectionPage() {
   };
 
   const getSeatPrice = (row: number) => {
-    const zone = hallData.priceZones.find(zone => zone.rows.includes(row));
+    const zone = priceZones.find(zone => zone.rows.includes(row));
     return zone ? zone.price : 0;
   };
 
@@ -61,24 +63,60 @@ export default function SeatSelectionPage() {
       if (isSelected) {
         return prev.filter(s => !(s.row === row && s.seat === seat));
       } else {
-        return [...prev, { row, seat }];
+        return [...prev, { row, seat, price: getSeatPrice(row) }];
       }
     });
   };
 
   const getTotalPrice = () => {
-    return selectedSeats.reduce((total, seat) => total + getSeatPrice(seat.row), 0);
+    return selectedSeats.reduce((total, seat) => total + seat.price, 0);
   };
 
   const handlePayment = () => {
+    if (!user) {
+      router.push('/login');
+      return;
+    }
     setShowPaymentPopup(true);
   };
 
-  const handleConfirmPayment = () => {
-    // Здесь можно добавить логику для обработки оплаты
-    alert('Оплата подтверждена!');
-    setShowPaymentPopup(false);
+  const handleConfirmPayment = async () => {
+    try {
+      const response = await fetch('/api/tickets', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          performanceId: id,
+          seats: selectedSeats,
+          userId: user?.id
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Ошибка при покупке билетов');
+      }
+
+      // Обновляем список занятых мест
+      const updatedOccupiedSeats = await fetch(`/api/performances/${id}/seats`).then(res => res.json());
+      setOccupiedSeats(updatedOccupiedSeats);
+      
+      alert('Билеты успешно куплены!');
+      setShowPaymentPopup(false);
+      setSelectedSeats([]);
+    } catch (error: any) {
+      alert(error.message);
+    }
   };
+
+  if (loading) {
+    return <div className="min-h-screen flex items-center justify-center text-white">Загрузка...</div>;
+  }
+
+  if (error) {
+    return <div className="min-h-screen flex items-center justify-center text-red-500">{error}</div>;
+  }
 
   return (
     <main className="min-h-screen bg-gradient-to-b from-gray-900 to-gray-800 text-white py-12">
@@ -87,7 +125,7 @@ export default function SeatSelectionPage() {
 
         {/* Легенда */}
         <div className="mb-8 grid grid-cols-1 md:grid-cols-4 gap-4">
-          {hallData.priceZones.map((zone, index) => (
+          {priceZones.map((zone, index) => (
             <div key={index} className="flex items-center space-x-2">
               <div className={`w-4 h-4 ${zone.color} rounded`}></div>
               <span>{zone.name} - {zone.price} ₽</span>
@@ -113,14 +151,14 @@ export default function SeatSelectionPage() {
 
             {/* Места */}
             <div className="space-y-2">
-              {Array.from({ length: hallData.rows }, (_, rowIndex) => (
+              {Array.from({ length: 15 }, (_, rowIndex) => (
                 <div key={rowIndex} className="flex justify-center space-x-2">
-                  {Array.from({ length: hallData.seatsPerRow }, (_, seatIndex) => {
+                  {Array.from({ length: 20 }, (_, seatIndex) => {
                     const row = rowIndex + 1;
                     const seat = seatIndex + 1;
                     const isOccupied = isSeatOccupied(row, seat);
                     const isSelected = isSeatSelected(row, seat);
-                    const zone = hallData.priceZones.find(z => z.rows.includes(row));
+                    const zone = priceZones.find(z => z.rows.includes(row));
 
                     return (
                       <button
@@ -154,7 +192,7 @@ export default function SeatSelectionPage() {
                   <div key={index} className="bg-gray-700 p-4 rounded flex items-center justify-between">
                     <div>
                       <p>Ряд {seat.row}, Место {seat.seat}</p>
-                      <p className="text-amber-400">{getSeatPrice(seat.row)} ₽</p>
+                      <p className="text-amber-400">{seat.price} ₽</p>
                     </div>
                     <button
                       onClick={() =>
@@ -200,7 +238,7 @@ export default function SeatSelectionPage() {
               {selectedSeats.map((seat, index) => (
                 <div key={index} className="bg-gray-700 p-4 rounded">
                   <p>Ряд {seat.row}, Место {seat.seat}</p>
-                  <p className="text-amber-400">{getSeatPrice(seat.row)} ₽</p>
+                  <p className="text-amber-400">{seat.price} ₽</p>
                 </div>
               ))}
               <div className="border-t border-gray-700 pt-4">

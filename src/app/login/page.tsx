@@ -18,7 +18,12 @@ export default function Login() {
       if (res.ok) {
         const data = await res.json();
         console.log('data', data)
-        localStorage.setItem("user", JSON.stringify({ name: data.name, email: data.email, role: data.role }));
+        localStorage.setItem("user", JSON.stringify({ 
+          id: data.id,
+          name: data.name, 
+          email: data.email, 
+          role: data.role 
+        }));
         alert('Вход выполнен!');
         window.location.href = '/';
       } else {
