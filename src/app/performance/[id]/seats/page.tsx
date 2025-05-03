@@ -38,6 +38,7 @@ export default function SeatSelectionPage() {
   const params = useParams();
   const { id } = params;
   const [selectedSeats, setSelectedSeats] = useState<{ row: number; seat: number }[]>([]);
+  const [showPaymentPopup, setShowPaymentPopup] = useState(false);
 
   const isSeatOccupied = (row: number, seat: number) => {
     return hallData.occupiedSeats.some(s => s.row === row && s.seat === seat);
@@ -67,6 +68,16 @@ export default function SeatSelectionPage() {
 
   const getTotalPrice = () => {
     return selectedSeats.reduce((total, seat) => total + getSeatPrice(seat.row), 0);
+  };
+
+  const handlePayment = () => {
+    setShowPaymentPopup(true);
+  };
+
+  const handleConfirmPayment = () => {
+    // Здесь можно добавить логику для обработки оплаты
+    alert('Оплата подтверждена!');
+    setShowPaymentPopup(false);
   };
 
   return (
@@ -168,6 +179,7 @@ export default function SeatSelectionPage() {
                 </p>
               </div>
               <button
+                onClick={handlePayment}
                 className="w-full bg-amber-600 hover:bg-amber-700 text-white font-bold py-3 px-4 rounded-lg transition duration-300"
               >
                 Перейти к оплате
@@ -178,6 +190,40 @@ export default function SeatSelectionPage() {
           )}
         </div>
       </div>
+
+      {/* PopUp окно для подтверждения оплаты */}
+      {showPaymentPopup && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-gray-800 p-6 rounded-lg max-w-md w-full">
+            <h2 className="text-2xl font-bold mb-4">Подтверждение оплаты</h2>
+            <div className="space-y-4">
+              {selectedSeats.map((seat, index) => (
+                <div key={index} className="bg-gray-700 p-4 rounded">
+                  <p>Ряд {seat.row}, Место {seat.seat}</p>
+                  <p className="text-amber-400">{getSeatPrice(seat.row)} ₽</p>
+                </div>
+              ))}
+              <div className="border-t border-gray-700 pt-4">
+                <p className="text-xl font-bold">
+                  Итого: {getTotalPrice()} ₽
+                </p>
+              </div>
+              <button
+                onClick={handleConfirmPayment}
+                className="w-full bg-amber-600 hover:bg-amber-700 text-white font-bold py-3 px-4 rounded-lg transition duration-300"
+              >
+                Подтвердить оплату
+              </button>
+              <button
+                onClick={() => setShowPaymentPopup(false)}
+                className="w-full bg-gray-600 hover:bg-gray-700 text-white font-bold py-3 px-4 rounded-lg transition duration-300 mt-2"
+              >
+                Отмена
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </main>
   );
 }
