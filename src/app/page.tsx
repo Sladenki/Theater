@@ -31,6 +31,12 @@ export default function Home() {
   const [performances, setPerformances] = useState<any[]>([]);
 
   useEffect(() => {
+    function fetchPerformances() {
+      fetch('/api/performances')
+        .then(res => res.json())
+        .then(setPerformances);
+    }
+
     if (typeof window !== "undefined") {
       const userData = localStorage.getItem("user");
       if (userData) {
@@ -40,11 +46,13 @@ export default function Home() {
           setUser(null);
         }
       }
+      fetchPerformances();
+      // Добавляем обработчик фокуса окна
+      window.addEventListener('focus', fetchPerformances);
+      return () => {
+        window.removeEventListener('focus', fetchPerformances);
+      };
     }
-    // Fetch performances from API
-    fetch('/api/performances')
-      .then(res => res.json())
-      .then(setPerformances);
   }, []);
 
   console.log('performances', performances)
@@ -202,10 +210,10 @@ export default function Home() {
           
           <motion.div 
             className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
-            variants={staggerContainer}
-            initial="initial"
-            whileInView="animate"
-            viewport={{ once: true }}
+            // variants={staggerContainer}
+            // initial="initial"
+            // whileInView="animate"
+            // viewport={{ once: true }}
           >
             {performances.map((performance, index) => (
               <motion.div 
