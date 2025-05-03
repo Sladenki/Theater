@@ -53,7 +53,7 @@ export async function POST(req: Request) {
           tx.ticket.create({
             data: {
               userId: parseInt(userId, 10),
-              performanceId,
+              performanceId: parseInt(performanceId, 10),
               row: seat.row,
               seat: seat.seat,
               price: seat.price,
@@ -67,7 +67,7 @@ export async function POST(req: Request) {
         seats.map((seat) =>
           tx.occupiedSeat.create({
             data: {
-              performanceId,
+              performanceId: parseInt(performanceId, 10),
               row: seat.row,
               seat: seat.seat,
             },
