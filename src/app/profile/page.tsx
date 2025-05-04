@@ -141,17 +141,48 @@ export default function ProfilePage() {
         <div className="bg-gray-800 p-6 rounded-lg">
           <h2 className="text-xl font-bold mb-4">Мои билеты</h2>
           {tickets.length > 0 ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {tickets.map(ticket => (
-                <div key={ticket.id} className="bg-gray-700 p-4 rounded-lg">
-                  <h3 className="text-lg font-semibold mb-2">{ticket.performance.title}</h3>
-                  <p className="text-amber-400 mb-2">{ticket.performance.author}</p>
-                  <p>Ряд: {ticket.row}</p>
-                  <p>Место: {ticket.seat}</p>
-                  <p className="text-amber-400 font-bold mt-2">{ticket.price} ₽</p>
-                  <p className="text-gray-400 text-sm mt-2">
-                    Куплен: {new Date(ticket.createdAt).toLocaleDateString()}
-                  </p>
+                <div key={ticket.id} className="relative">
+                  {/* Основной билет */}
+                  <div className="bg-gradient-to-br from-amber-600 to-amber-700 p-6 rounded-lg shadow-xl transform hover:scale-105 transition-transform duration-300">
+                    {/* Верхняя часть билета */}
+                    <div className="border-b border-amber-400/30 pb-4 mb-4">
+                      <h3 className="text-xl font-bold text-white mb-2">{ticket.performance.title}</h3>
+                      <p className="text-amber-100">{ticket.performance.author}</p>
+                    </div>
+
+                    {/* Информация о месте */}
+                    <div className="grid grid-cols-2 gap-4 mb-4">
+                      <div className="bg-amber-500/20 p-3 rounded-lg">
+                        <p className="text-amber-100 text-sm">Ряд</p>
+                        <p className="text-white font-bold text-lg">{ticket.row}</p>
+                      </div>
+                      <div className="bg-amber-500/20 p-3 rounded-lg">
+                        <p className="text-amber-100 text-sm">Место</p>
+                        <p className="text-white font-bold text-lg">{ticket.seat}</p>
+                      </div>
+                    </div>
+
+                    {/* Цена */}
+                    <div className="bg-amber-500/20 p-3 rounded-lg mb-4">
+                      <p className="text-amber-100 text-sm">Стоимость</p>
+                      <p className="text-white font-bold text-xl">{ticket.price} ₽</p>
+                    </div>
+
+                    {/* Дата покупки */}
+                    <div className="text-amber-100 text-sm">
+                      Куплен: {new Date(ticket.createdAt).toLocaleDateString('ru-RU', {
+                        day: 'numeric',
+                        month: 'long',
+                        year: 'numeric'
+                      })}
+                    </div>
+
+                    {/* Перфорация */}
+                    <div className="absolute left-0 top-1/2 -translate-y-1/2 w-4 h-4 bg-gray-900 rounded-full" />
+                    <div className="absolute right-0 top-1/2 -translate-y-1/2 w-4 h-4 bg-gray-900 rounded-full" />
+                  </div>
                 </div>
               ))}
             </div>
