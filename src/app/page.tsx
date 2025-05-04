@@ -49,6 +49,17 @@ export default function Home() {
       fetchPerformances();
       // Добавляем обработчик фокуса окна
       window.addEventListener('focus', fetchPerformances);
+
+      // Обработка хеша при загрузке страницы
+      if (window.location.hash === '#performances') {
+        const performancesSection = document.getElementById('performances');
+        if (performancesSection) {
+          setTimeout(() => {
+            performancesSection.scrollIntoView({ behavior: 'smooth' });
+          }, 100);
+        }
+      }
+
       return () => {
         window.removeEventListener('focus', fetchPerformances);
       };
@@ -191,6 +202,7 @@ export default function Home() {
 
       {/* Current Productions */}
       <motion.div 
+        id="performances"
         className="py-20 px-4 bg-gray-800"
         initial={{ opacity: 0, y: 50 }}
         whileInView={{ opacity: 1, y: 0 }}
