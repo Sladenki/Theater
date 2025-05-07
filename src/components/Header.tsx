@@ -61,12 +61,12 @@ export default function Header() {
             >
               Спектакли
             </button>
-            {/* <Link
+            <Link
               href="/help"
               className="text-gray-300 hover:text-amber-500 transition-colors"
             >
               Справка
-            </Link> */}
+            </Link>
             {user && (
               <Link
                 href="/profile"
