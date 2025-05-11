@@ -83,14 +83,14 @@ export default function Header() {
                 </Link>
               </>
             )}
-            {user?.role === 'ADMIN' && (
+            {/* {user?.role === 'ADMIN' && (
               <Link
                 href="/profile"
                 className="text-gray-300 hover:text-amber-500 transition-colors"
               >
                 Админ Панель
               </Link>
-            )}
+            )} */}
           </nav>
 
           {/* Auth Buttons and Status */}
