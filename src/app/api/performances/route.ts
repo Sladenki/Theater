@@ -3,8 +3,28 @@ import { PrismaClient } from '../../../generated/client'
 const prisma = new PrismaClient()
 
 export async function GET() {
-  const performances = await prisma.performance.findMany()
-  return NextResponse.json(performances)
+  try {
+    const now = new Date();
+    
+    const performances = await prisma.performance.findMany({
+      where: {
+        performanceTime: {
+          gt: now
+        }
+      },
+      orderBy: {
+        performanceTime: 'asc'
+      }
+    })
+
+    return NextResponse.json(performances)
+  } catch (error: any) {
+    console.error('Error fetching performances:', error);
+    return NextResponse.json(
+      { error: error.message || 'Ошибка сервера' },
+      { status: 500 }
+    )
+  }
 }
 
 export async function POST(req: NextRequest) {
