@@ -3,27 +3,29 @@ import { PrismaClient } from '../../../generated/client';
 
 const prisma = new PrismaClient();
 
-export async function GET(req: Request) {
+export async function GET() {
   try {
-    const userId = new URL(req.url).searchParams.get('userId');
-    if (!userId) {
-      return NextResponse.json({ error: 'Необходим ID пользователя' }, { status: 401 });
-    }
+    // TODO: В будущем здесь будет проверка авторизации пользователя
+    // и получение его ID из сессии
 
     const tickets = await prisma.ticket.findMany({
       where: {
-        userId: parseInt(userId, 10)
+        // TODO: Добавить фильтр по userId когда будет авторизация
       },
       include: {
         performance: {
           select: {
             title: true,
-            author: true
+            performanceTime: true,
+            image: true,
+            id: true
           }
         }
       },
       orderBy: {
-        createdAt: 'desc'
+        performance: {
+          performanceTime: 'asc'
+        }
       }
     });
 

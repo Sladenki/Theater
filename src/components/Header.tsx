@@ -68,12 +68,20 @@ export default function Header() {
               Справка
             </Link>
             {user && (
-              <Link
-                href="/profile"
-                className="text-gray-300 hover:text-amber-500 transition-colors"
-              >
-                Профиль
-              </Link>
+              <>
+                <Link
+                  href="/tickets"
+                  className="text-gray-300 hover:text-amber-500 transition-colors"
+                >
+                  Мои билеты
+                </Link>
+                <Link
+                  href="/profile"
+                  className="text-gray-300 hover:text-amber-500 transition-colors"
+                >
+                  Профиль
+                </Link>
+              </>
             )}
             {user?.role === 'ADMIN' && (
               <Link
