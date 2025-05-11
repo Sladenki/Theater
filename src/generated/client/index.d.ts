@@ -2340,6 +2340,7 @@ export namespace Prisma {
     author: string | null
     description: string | null
     image: string | null
+    performanceTime: Date | null
   }
 
   export type PerformanceMaxAggregateOutputType = {
@@ -2348,6 +2349,7 @@ export namespace Prisma {
     author: string | null
     description: string | null
     image: string | null
+    performanceTime: Date | null
   }
 
   export type PerformanceCountAggregateOutputType = {
@@ -2356,6 +2358,7 @@ export namespace Prisma {
     author: number
     description: number
     image: number
+    performanceTime: number
     _all: number
   }
 
@@ -2374,6 +2377,7 @@ export namespace Prisma {
     author?: true
     description?: true
     image?: true
+    performanceTime?: true
   }
 
   export type PerformanceMaxAggregateInputType = {
@@ -2382,6 +2386,7 @@ export namespace Prisma {
     author?: true
     description?: true
     image?: true
+    performanceTime?: true
   }
 
   export type PerformanceCountAggregateInputType = {
@@ -2390,6 +2395,7 @@ export namespace Prisma {
     author?: true
     description?: true
     image?: true
+    performanceTime?: true
     _all?: true
   }
 
@@ -2485,6 +2491,7 @@ export namespace Prisma {
     author: string
     description: string
     image: string
+    performanceTime: Date
     _count: PerformanceCountAggregateOutputType | null
     _avg: PerformanceAvgAggregateOutputType | null
     _sum: PerformanceSumAggregateOutputType | null
@@ -2512,6 +2519,7 @@ export namespace Prisma {
     author?: boolean
     description?: boolean
     image?: boolean
+    performanceTime?: boolean
     occupiedSeats?: boolean | Performance$occupiedSeatsArgs<ExtArgs>
     tickets?: boolean | Performance$ticketsArgs<ExtArgs>
     _count?: boolean | PerformanceCountOutputTypeDefaultArgs<ExtArgs>
@@ -2523,6 +2531,7 @@ export namespace Prisma {
     author?: boolean
     description?: boolean
     image?: boolean
+    performanceTime?: boolean
   }, ExtArgs["result"]["performance"]>
 
   export type PerformanceSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -2531,6 +2540,7 @@ export namespace Prisma {
     author?: boolean
     description?: boolean
     image?: boolean
+    performanceTime?: boolean
   }, ExtArgs["result"]["performance"]>
 
   export type PerformanceSelectScalar = {
@@ -2539,9 +2549,10 @@ export namespace Prisma {
     author?: boolean
     description?: boolean
     image?: boolean
+    performanceTime?: boolean
   }
 
-  export type PerformanceOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "author" | "description" | "image", ExtArgs["result"]["performance"]>
+  export type PerformanceOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "author" | "description" | "image" | "performanceTime", ExtArgs["result"]["performance"]>
   export type PerformanceInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     occupiedSeats?: boolean | Performance$occupiedSeatsArgs<ExtArgs>
     tickets?: boolean | Performance$ticketsArgs<ExtArgs>
@@ -2562,6 +2573,7 @@ export namespace Prisma {
       author: string
       description: string
       image: string
+      performanceTime: Date
     }, ExtArgs["result"]["performance"]>
     composites: {}
   }
@@ -2992,6 +3004,7 @@ export namespace Prisma {
     readonly author: FieldRef<"Performance", 'String'>
     readonly description: FieldRef<"Performance", 'String'>
     readonly image: FieldRef<"Performance", 'String'>
+    readonly performanceTime: FieldRef<"Performance", 'DateTime'>
   }
     
 
@@ -5704,7 +5717,8 @@ export namespace Prisma {
     title: 'title',
     author: 'author',
     description: 'description',
-    image: 'image'
+    image: 'image',
+    performanceTime: 'performanceTime'
   };
 
   export type PerformanceScalarFieldEnum = (typeof PerformanceScalarFieldEnum)[keyof typeof PerformanceScalarFieldEnum]
@@ -5843,6 +5857,7 @@ export namespace Prisma {
     author?: StringFilter<"Performance"> | string
     description?: StringFilter<"Performance"> | string
     image?: StringFilter<"Performance"> | string
+    performanceTime?: DateTimeFilter<"Performance"> | Date | string
     occupiedSeats?: OccupiedSeatListRelationFilter
     tickets?: TicketListRelationFilter
   }
@@ -5853,6 +5868,7 @@ export namespace Prisma {
     author?: SortOrder
     description?: SortOrder
     image?: SortOrder
+    performanceTime?: SortOrder
     occupiedSeats?: OccupiedSeatOrderByRelationAggregateInput
     tickets?: TicketOrderByRelationAggregateInput
   }
@@ -5866,6 +5882,7 @@ export namespace Prisma {
     author?: StringFilter<"Performance"> | string
     description?: StringFilter<"Performance"> | string
     image?: StringFilter<"Performance"> | string
+    performanceTime?: DateTimeFilter<"Performance"> | Date | string
     occupiedSeats?: OccupiedSeatListRelationFilter
     tickets?: TicketListRelationFilter
   }, "id">
@@ -5876,6 +5893,7 @@ export namespace Prisma {
     author?: SortOrder
     description?: SortOrder
     image?: SortOrder
+    performanceTime?: SortOrder
     _count?: PerformanceCountOrderByAggregateInput
     _avg?: PerformanceAvgOrderByAggregateInput
     _max?: PerformanceMaxOrderByAggregateInput
@@ -5892,6 +5910,7 @@ export namespace Prisma {
     author?: StringWithAggregatesFilter<"Performance"> | string
     description?: StringWithAggregatesFilter<"Performance"> | string
     image?: StringWithAggregatesFilter<"Performance"> | string
+    performanceTime?: DateTimeWithAggregatesFilter<"Performance"> | Date | string
   }
 
   export type TicketWhereInput = {
@@ -6078,6 +6097,7 @@ export namespace Prisma {
     author: string
     description: string
     image: string
+    performanceTime: Date | string
     occupiedSeats?: OccupiedSeatCreateNestedManyWithoutPerformanceInput
     tickets?: TicketCreateNestedManyWithoutPerformanceInput
   }
@@ -6088,6 +6108,7 @@ export namespace Prisma {
     author: string
     description: string
     image: string
+    performanceTime: Date | string
     occupiedSeats?: OccupiedSeatUncheckedCreateNestedManyWithoutPerformanceInput
     tickets?: TicketUncheckedCreateNestedManyWithoutPerformanceInput
   }
@@ -6097,6 +6118,7 @@ export namespace Prisma {
     author?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     image?: StringFieldUpdateOperationsInput | string
+    performanceTime?: DateTimeFieldUpdateOperationsInput | Date | string
     occupiedSeats?: OccupiedSeatUpdateManyWithoutPerformanceNestedInput
     tickets?: TicketUpdateManyWithoutPerformanceNestedInput
   }
@@ -6107,6 +6129,7 @@ export namespace Prisma {
     author?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     image?: StringFieldUpdateOperationsInput | string
+    performanceTime?: DateTimeFieldUpdateOperationsInput | Date | string
     occupiedSeats?: OccupiedSeatUncheckedUpdateManyWithoutPerformanceNestedInput
     tickets?: TicketUncheckedUpdateManyWithoutPerformanceNestedInput
   }
@@ -6117,6 +6140,7 @@ export namespace Prisma {
     author: string
     description: string
     image: string
+    performanceTime: Date | string
   }
 
   export type PerformanceUpdateManyMutationInput = {
@@ -6124,6 +6148,7 @@ export namespace Prisma {
     author?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     image?: StringFieldUpdateOperationsInput | string
+    performanceTime?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type PerformanceUncheckedUpdateManyInput = {
@@ -6132,6 +6157,7 @@ export namespace Prisma {
     author?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     image?: StringFieldUpdateOperationsInput | string
+    performanceTime?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type TicketCreateInput = {
@@ -6344,6 +6370,17 @@ export namespace Prisma {
     _max?: NestedStringFilter<$PrismaModel>
   }
 
+  export type DateTimeFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    in?: Date[] | string[]
+    notIn?: Date[] | string[]
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeFilter<$PrismaModel> | Date | string
+  }
+
   export type OccupiedSeatListRelationFilter = {
     every?: OccupiedSeatWhereInput
     some?: OccupiedSeatWhereInput
@@ -6360,6 +6397,7 @@ export namespace Prisma {
     author?: SortOrder
     description?: SortOrder
     image?: SortOrder
+    performanceTime?: SortOrder
   }
 
   export type PerformanceAvgOrderByAggregateInput = {
@@ -6372,6 +6410,7 @@ export namespace Prisma {
     author?: SortOrder
     description?: SortOrder
     image?: SortOrder
+    performanceTime?: SortOrder
   }
 
   export type PerformanceMinOrderByAggregateInput = {
@@ -6380,13 +6419,14 @@ export namespace Prisma {
     author?: SortOrder
     description?: SortOrder
     image?: SortOrder
+    performanceTime?: SortOrder
   }
 
   export type PerformanceSumOrderByAggregateInput = {
     id?: SortOrder
   }
 
-  export type DateTimeFilter<$PrismaModel = never> = {
+  export type DateTimeWithAggregatesFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     in?: Date[] | string[]
     notIn?: Date[] | string[]
@@ -6394,7 +6434,10 @@ export namespace Prisma {
     lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeFilter<$PrismaModel> | Date | string
+    not?: NestedDateTimeWithAggregatesFilter<$PrismaModel> | Date | string
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedDateTimeFilter<$PrismaModel>
+    _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
   export type PerformanceScalarRelationFilter = {
@@ -6453,20 +6496,6 @@ export namespace Prisma {
     row?: SortOrder
     seat?: SortOrder
     price?: SortOrder
-  }
-
-  export type DateTimeWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    in?: Date[] | string[]
-    notIn?: Date[] | string[]
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeWithAggregatesFilter<$PrismaModel> | Date | string
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedDateTimeFilter<$PrismaModel>
-    _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
   export type OccupiedSeatCountOrderByAggregateInput = {
@@ -6586,6 +6615,10 @@ export namespace Prisma {
     connect?: TicketWhereUniqueInput | TicketWhereUniqueInput[]
   }
 
+  export type DateTimeFieldUpdateOperationsInput = {
+    set?: Date | string
+  }
+
   export type OccupiedSeatUpdateManyWithoutPerformanceNestedInput = {
     create?: XOR<OccupiedSeatCreateWithoutPerformanceInput, OccupiedSeatUncheckedCreateWithoutPerformanceInput> | OccupiedSeatCreateWithoutPerformanceInput[] | OccupiedSeatUncheckedCreateWithoutPerformanceInput[]
     connectOrCreate?: OccupiedSeatCreateOrConnectWithoutPerformanceInput | OccupiedSeatCreateOrConnectWithoutPerformanceInput[]
@@ -6652,10 +6685,6 @@ export namespace Prisma {
     create?: XOR<UserCreateWithoutTicketsInput, UserUncheckedCreateWithoutTicketsInput>
     connectOrCreate?: UserCreateOrConnectWithoutTicketsInput
     connect?: UserWhereUniqueInput
-  }
-
-  export type DateTimeFieldUpdateOperationsInput = {
-    set?: Date | string
   }
 
   export type PerformanceUpdateOneRequiredWithoutTicketsNestedInput = {
@@ -6930,6 +6959,7 @@ export namespace Prisma {
     author: string
     description: string
     image: string
+    performanceTime: Date | string
     occupiedSeats?: OccupiedSeatCreateNestedManyWithoutPerformanceInput
   }
 
@@ -6939,6 +6969,7 @@ export namespace Prisma {
     author: string
     description: string
     image: string
+    performanceTime: Date | string
     occupiedSeats?: OccupiedSeatUncheckedCreateNestedManyWithoutPerformanceInput
   }
 
@@ -6983,6 +7014,7 @@ export namespace Prisma {
     author?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     image?: StringFieldUpdateOperationsInput | string
+    performanceTime?: DateTimeFieldUpdateOperationsInput | Date | string
     occupiedSeats?: OccupiedSeatUpdateManyWithoutPerformanceNestedInput
   }
 
@@ -6992,6 +7024,7 @@ export namespace Prisma {
     author?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     image?: StringFieldUpdateOperationsInput | string
+    performanceTime?: DateTimeFieldUpdateOperationsInput | Date | string
     occupiedSeats?: OccupiedSeatUncheckedUpdateManyWithoutPerformanceNestedInput
   }
 
@@ -7026,6 +7059,7 @@ export namespace Prisma {
     author: string
     description: string
     image: string
+    performanceTime: Date | string
     tickets?: TicketCreateNestedManyWithoutPerformanceInput
   }
 
@@ -7035,6 +7069,7 @@ export namespace Prisma {
     author: string
     description: string
     image: string
+    performanceTime: Date | string
     tickets?: TicketUncheckedCreateNestedManyWithoutPerformanceInput
   }
 
@@ -7059,6 +7094,7 @@ export namespace Prisma {
     author?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     image?: StringFieldUpdateOperationsInput | string
+    performanceTime?: DateTimeFieldUpdateOperationsInput | Date | string
     tickets?: TicketUpdateManyWithoutPerformanceNestedInput
   }
 
@@ -7068,6 +7104,7 @@ export namespace Prisma {
     author?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     image?: StringFieldUpdateOperationsInput | string
+    performanceTime?: DateTimeFieldUpdateOperationsInput | Date | string
     tickets?: TicketUncheckedUpdateManyWithoutPerformanceNestedInput
   }
 

@@ -18,13 +18,14 @@ model User {
 }
 
 model Performance {
-  id            Int            @id @default(autoincrement())
-  title         String
-  author        String
-  description   String
-  image         String
-  occupiedSeats OccupiedSeat[]
-  tickets       Ticket[]
+  id              Int            @id @default(autoincrement())
+  title           String
+  author          String
+  description     String
+  image           String
+  performanceTime DateTime
+  occupiedSeats   OccupiedSeat[]
+  tickets         Ticket[]
 }
 
 model Ticket {

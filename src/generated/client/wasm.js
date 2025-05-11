@@ -130,7 +130,8 @@ exports.Prisma.PerformanceScalarFieldEnum = {
   title: 'title',
   author: 'author',
   description: 'description',
-  image: 'image'
+  image: 'image',
+  performanceTime: 'performanceTime'
 };
 
 exports.Prisma.TicketScalarFieldEnum = {

@@ -9,12 +9,18 @@ export async function GET() {
 
 export async function POST(req: NextRequest) {
   try {
-    const { title, author, description, image } = await req.json()
-    if (!title || !author || !description || !image) {
+    const { title, author, description, image, performanceTime } = await req.json()
+    if (!title || !author || !description || !image || !performanceTime) {
       return NextResponse.json({ error: 'Все поля обязательны' }, { status: 400 })
     }
     const performance = await prisma.performance.create({
-      data: { title, author, description, image }
+      data: { 
+        title, 
+        author, 
+        description, 
+        image,
+        performanceTime: new Date(performanceTime)
+      }
     })
     return NextResponse.json(performance, { status: 201 })
   } catch (error: any) {

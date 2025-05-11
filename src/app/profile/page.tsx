@@ -25,7 +25,8 @@ export default function ProfilePage() {
     title: '',
     author: '',
     description: '',
-    image: ''
+    image: '',
+    performanceTime: ''
   });
 
   useEffect(() => {
@@ -59,7 +60,7 @@ export default function ProfilePage() {
       });
       if (res.ok) {
         alert('Спектакль успешно создан!');
-        setNewPerformance({ title: '', author: '', description: '', image: '' });
+        setNewPerformance({ title: '', author: '', description: '', image: '', performanceTime: '' });
       } else {
         const data = await res.json();
         alert(data.error || 'Ошибка создания спектакля');
@@ -125,6 +126,13 @@ export default function ProfilePage() {
                 placeholder="URL изображения"
                 value={newPerformance.image}
                 onChange={(e) => setNewPerformance({ ...newPerformance, image: e.target.value })}
+                className="w-full px-4 py-2 rounded bg-gray-700 text-white"
+                required
+              />
+              <input
+                type="datetime-local"
+                value={newPerformance.performanceTime}
+                onChange={(e) => setNewPerformance({ ...newPerformance, performanceTime: e.target.value })}
                 className="w-full px-4 py-2 rounded bg-gray-700 text-white"
                 required
               />
