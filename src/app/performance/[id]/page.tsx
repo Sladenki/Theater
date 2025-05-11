@@ -31,6 +31,23 @@ export default function PerformancePage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString('ru-RU', {
+      day: 'numeric',
+      month: 'long',
+      year: 'numeric'
+    });
+  };
+
+  const formatTime = (dateString: string) => {
+    const date = new Date(dateString);
+    return date.toLocaleTimeString('ru-RU', {
+      hour: '2-digit',
+      minute: '2-digit'
+    });
+  };
+
   useEffect(() => {
     if (!id) return;
     setLoading(true);
@@ -74,16 +91,10 @@ export default function PerformancePage() {
             <p className="text-xl md:text-2xl text-amber-400 mb-6">{performanceData.author}</p>
             <div className="flex flex-wrap gap-4">
               <div className="bg-gray-800/50 px-4 py-2 rounded-full">
-                <span className="text-amber-400">Дата:</span> {performanceData.date || '-'}
+                <span className="text-amber-400">Дата:</span> {performanceData.performanceTime ? formatDate(performanceData.performanceTime) : '-'}
               </div>
               <div className="bg-gray-800/50 px-4 py-2 rounded-full">
-                <span className="text-amber-400">Время:</span> {performanceData.time || '-'}
-              </div>
-              <div className="bg-gray-800/50 px-4 py-2 rounded-full">
-                <span className="text-amber-400">Продолжительность:</span> {performanceData.duration || '-'}
-              </div>
-              <div className="bg-gray-800/50 px-4 py-2 rounded-full">
-                <span className="text-amber-400">Возраст:</span> {performanceData.ageRestriction || '-'}
+                <span className="text-amber-400">Время:</span> {performanceData.performanceTime ? formatTime(performanceData.performanceTime) : '-'}
               </div>
             </div>
           </div>
@@ -118,10 +129,6 @@ export default function PerformancePage() {
 
           {/* Sidebar */}
           <div className="space-y-6">
-            <div className="bg-gray-800/50 p-6 rounded-xl">
-              <h2 className="text-2xl font-bold mb-4">Режиссер</h2>
-              <p className="text-gray-300">{performanceData.director || '-'}</p>
-            </div>
 
             <div className="bg-gray-800/50 p-6 rounded-xl">
               <h2 className="text-2xl font-bold mb-4">Цены на билеты</h2>
