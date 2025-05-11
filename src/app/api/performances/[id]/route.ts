@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server'
-import { PrismaClient } from '@prisma/client'
+import { PrismaClient } from '../../../../generated/client'
 
 const prisma = new PrismaClient()
 
@@ -22,6 +22,8 @@ export async function GET(
         id: performanceId
       }
     })
+
+    console.log('Performance data:', performance);
 
     if (!performance) {
       return NextResponse.json(

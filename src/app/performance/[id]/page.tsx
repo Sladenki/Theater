@@ -40,7 +40,10 @@ export default function PerformancePage() {
         if (!res.ok) throw new Error('Ошибка загрузки данных');
         return res.json();
       })
-      .then(setPerformanceData)
+      .then(data => {
+        console.log('Полученные данные о спектакле:', data);
+        setPerformanceData(data);
+      })
       .catch(e => setError(e.message))
       .finally(() => setLoading(false));
   }, [id]);
