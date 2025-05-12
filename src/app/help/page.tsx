@@ -1,33 +1,88 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
+import Link from 'next/link';
 
 const HelpPage = () => {
+  const [expandedItems, setExpandedItems] = useState<{ [key: string]: boolean }>({});
+
+  const toggleItem = (role: string, index: number) => {
+    const key = `${role}-${index}`;
+    setExpandedItems(prev => ({
+      ...prev,
+      [key]: !prev[key]
+    }));
+  };
+
   const userCapabilities = {
     guest: {
       title: 'Гость',
       capabilities: [
-        'Просмотр списка спектаклей',
-        'Просмотр подробной информации о спектакле',
-        'Регистрация в системе',
-        'Вход в систему'
+        {
+          title: 'Просмотр списка спектаклей',
+          description: 'Доступ к полному каталогу спектаклей с возможностью фильтрации и поиска.',
+          link: '/#performances'
+        },
+        {
+          title: 'Просмотр подробной информации о спектакле',
+          description: 'Информация о дате, времени, месте проведения, актерах и сюжете спектакля.',
+          link: '/performance/1'
+        },
+        {
+          title: 'Регистрация в системе',
+          description: 'Создание нового аккаунта для получения расширенных возможностей.',
+          link: '/register'
+        },
+        {
+          title: 'Вход в систему',
+          description: 'Авторизация в системе для доступа к личному кабинету.',
+          link: '/login'
+        }
       ]
     },
     user: {
       title: 'Пользователь',
       capabilities: [
-        'Все возможности гостя',
-        'Просмотр своего профиля',
-        'Просмотр списка купленных билетов',
-        'Возможность сдачи купленных билетов',
-        'Покупка билетов на спектакли'
+        {
+          title: 'Все возможности гостя',
+          description: 'Полный доступ ко всем базовым функциям системы.',
+          link: null
+        },
+        {
+          title: 'Просмотр своего профиля',
+          description: 'Управление личными данными и настройками аккаунта.',
+          link: '/profile'
+        },
+        {
+          title: 'Просмотр списка купленных билетов',
+          description: 'История покупок и информация о текущих билетах.',
+          link: '/tickets'
+        },
+        {
+          title: 'Возможность сдачи купленных билетов',
+          description: 'Возврат билетов в соответствии с правилами театра.',
+          link: '/tickets'
+        },
+        {
+          title: 'Покупка билетов на спектакли',
+          description: 'Выбор мест и оформление заказа на билеты.',
+          link: '/performance/1/seats'
+        }
       ]
     },
     admin: {
       title: 'Администратор',
       capabilities: [
-        'Все возможности пользователя',
-        'Создание спектаклей',
+        {
+          title: 'Все возможности пользователя',
+          description: 'Полный доступ ко всем функциям обычного пользователя.',
+          link: null
+        },
+        {
+          title: 'Создание спектаклей',
+          description: 'Добавление новых спектаклей в систему, управление расписанием.',
+          link: '/profile'
+        }
       ]
     }
   };
@@ -42,9 +97,32 @@ const HelpPage = () => {
             <h2 className="text-2xl font-semibold mb-4 text-blue-600">{data.title}</h2>
             <ul className="space-y-3">
               {data.capabilities.map((capability, index) => (
-                <li key={index} className="flex items-start">
-                  <span className="text-green-500 mr-2">•</span>
-                  <span>{capability}</span>
+                <li key={index} className="border-b border-gray-200 pb-3">
+                  <button
+                    onClick={() => toggleItem(role, index)}
+                    className="w-full flex items-center justify-between text-left hover:text-blue-600 transition-colors"
+                  >
+                    <div className="flex items-start">
+                      <span className="text-green-500 mr-2">•</span>
+                      <span>{capability.title}</span>
+                    </div>
+                    <span className="text-gray-400">
+                      {expandedItems[`${role}-${index}`] ? '▼' : '▶'}
+                    </span>
+                  </button>
+                  {expandedItems[`${role}-${index}`] && (
+                    <div className="mt-2 pl-6 text-gray-600">
+                      <p className="mb-2">{capability.description}</p>
+                      {capability.link && (
+                        <Link 
+                          href={capability.link}
+                          className="text-blue-500 hover:text-blue-700 text-sm"
+                        >
+                          Перейти →
+                        </Link>
+                      )}
+                    </div>
+                  )}
                 </li>
               ))}
             </ul>
